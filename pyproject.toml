@@ -1,0 +1,19 @@
+[project]
+name = "rag-framework"
+version = "0.1.0"
+description = "Offline-first, dependency-light RAG framework: hybrid retrieval, late interaction reranking, agentic corrective retrieval and grounded generation"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26", "PyYAML>=6.0"]
+
+[project.optional-dependencies]
+live = ["httpx>=0.27"]
+
+[project.scripts]
+rag = "rag.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["rag*"]

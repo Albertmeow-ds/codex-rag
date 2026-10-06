@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+data/
+*.db
+.venv/
+eval_llm.txt
+.writeutf8.ps1

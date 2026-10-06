@@ -1,0 +1,10 @@
+# 证据不足时拒绝作答 + 语料里没有该实体就别再重试。
+# 实测（examples/corpus + examples/eval.jsonl）：语料外问题 3/4 被正确拒答，
+# 语料内问题误拒 0/10，总轮数与分级候选数各降 22%。
+# 换语料后请先只开 evidence_stop_on_no_entity 跑一遍 eval --generation，
+# 确认 answerable_rate 没有明显下降，再开 evidence_gate。
+extends: config.yaml
+
+agentic:
+  evidence_stop_on_no_entity: true
+  evidence_gate: true

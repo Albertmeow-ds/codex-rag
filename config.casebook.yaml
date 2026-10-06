@@ -1,0 +1,13 @@
+﻿extends: config.yaml
+
+db_path: "D:/casebook/casebook.db"
+
+# One case per markdown file: keep the whole case retrievable as a single unit.
+chunking:
+  strategy: hierarchical
+  parent_tokens: 1200
+  child_tokens: 260
+
+retrieval:
+  top_k: 5
+  max_per_document: 1

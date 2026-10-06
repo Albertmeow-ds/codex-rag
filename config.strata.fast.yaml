@@ -1,0 +1,8 @@
+# 快档：一次检索 + 一次生成，不做 agentic 分级/改写循环。
+# 用法: python -m rag.cli --config config.strata.fast.yaml query "..."
+extends: config.strata.yaml
+
+agentic: false
+agentic_config:
+  enabled: false
+  max_rounds: 1

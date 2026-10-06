@@ -1,0 +1,8 @@
+* text=auto eol=lf
+
+# Never rewrite bytes in these.
+*.db binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary

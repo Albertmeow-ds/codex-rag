@@ -1,0 +1,75 @@
+db_path: data/rag.db
+
+# auto -> Ollama embedding model if present, else OpenAI-compatible if configured,
+# else the offline hashed n-gram embedder. Force with: hashed | lsa | ollama:bge-m3 | openai:text-embedding-3-small
+embedder: auto
+embed_dim: 512
+
+ollama_host: http://127.0.0.1:11434
+ollama_model: qwen3.8:27b
+llm: none            # none | auto | ollama:<model> | openai:<model>
+# none -> extractive answerer (CPU only, no model load).
+# To reuse an ALREADY-LOADED server instead of loading a second model:
+#   $env:RAG_LLM_BASE_URL="http://127.0.0.1:8080/v1"
+#   $env:RAG_LLM_MODEL="qwen3.8-flash-next-iq3_xxs"
+#   $env:RAG_LLM_WIRE_API="responses"
+#   then set llm: auto
+
+reranker: heuristic      # none | heuristic | late | llm | comma chain e.g. heuristic,late
+transform: none      # none | hyde | multi-query | step-back | decompose
+agentic: true
+
+chunking:
+  strategy: hierarchical   # structural | semantic | hierarchical
+  max_tokens: 320
+  min_tokens: 40
+  overlap_tokens: 48
+  parent_tokens: 700
+  child_tokens: 140
+
+retrieval:
+  candidate_k: 40
+  top_k: 8
+  channels: [bm25, dense]
+  fusion: weighted         # rrf | weighted
+  rrf_k: 60
+  # 留空 = 按嵌入模型自动选档（实测见 examples/embedder_comparison.py）：
+  #   lexical 嵌入(hashed/lsa) -> bm25 1.2 : dense 0.8
+  #   semantic 嵌入(bge-m3 等) -> bm25 0.5 : dense 1.5
+  # 写死则完全覆盖自动档。
+  weights:
+  sentence_window_radius: 0
+  expand_parents: true
+
+generation:
+  max_context_tokens: 3200
+  order: u-shape
+  dedupe: true
+  require_citations: true
+
+web:
+  enabled: true
+  backend: auto            # auto | bing | duckduckgo | arxiv | tavily | brave
+  max_results: 6
+  fetch_pages: true
+  prefer_snippet: true     # 摘要够长就直接用摘要，避免把导航样板灌进索引
+  min_snippet_chars: 160
+  timeout: 12.0
+
+agentic:
+  enabled: true
+  max_rounds: 3
+  weak_coverage_threshold: 0.35
+  groundedness_threshold: 0.3
+  allow_web_fallback: false
+  # 成本预算（0 = 不限）。一次回答的 LLM 调用/token/分级候选都会记账，超限即停。
+  max_llm_calls: 0
+  max_total_tokens: 0
+  # 证据充分性判定：相关 != 能回答。默认只做诊断（写进 trace），不拦截答案。
+  evidence: true
+  evidence_drives_loop: true
+  evidence_gate: false
+  evidence_threshold: 0.5
+  # 语料里连被问实体都没出现时停止重试同一语料。实测省 22% 轮数，
+  # 但硬实体抽取偏保守，按语料情况再开（见 config.evidence.yaml）。
+  evidence_stop_on_no_entity: false

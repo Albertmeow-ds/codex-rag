@@ -1,0 +1,12 @@
+# bge-m3 版配置：真嵌入模型下，稠密通道要比 BM25 拿更高权重。
+# 实测（examples/cross_lingual_sweep.py，本地 7 篇 + arXiv 4 篇）：
+#   bm25 1.2 : dense 0.8  -> recall 0.7231  ndcg 0.8257
+#   bm25 1.0 : dense 1.0  -> recall 0.7888  ndcg 0.8705
+#   bm25 0.5 : dense 1.5  -> recall 0.8181  ndcg 0.9299  <- 本文件
+extends: config.yaml
+
+embedder: ollama:bge-m3
+embed_dim: 1024
+
+retrieval:
+  weights: { bm25: 0.5, dense: 1.5, late: 0.5 }

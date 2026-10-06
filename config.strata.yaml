@@ -1,0 +1,48 @@
+# 复用已经在显存里的 Strata 服务：不会加载第二个模型。
+# 用法: python -m rag.cli --config config.strata.yaml query "..."
+extends: config.yaml
+
+db_path: data/rag.db
+embedder: auto
+embed_dim: 512
+
+llm: auto
+llm_base_url: http://127.0.0.1:8080/v1
+llm_model: qwen3.8-flash-next-iq3_xxs
+llm_wire_api: responses
+
+reranker: heuristic
+transform: none
+agentic: true
+
+chunking:
+  strategy: hierarchical
+  max_tokens: 320
+  min_tokens: 40
+  overlap_tokens: 48
+  parent_tokens: 700
+  child_tokens: 140
+
+retrieval:
+  candidate_k: 40
+  top_k: 8
+  channels: [bm25, dense]
+  fusion: weighted
+  rrf_k: 60
+  weights: { bm25: 1.2, dense: 0.8, late: 0.5 }
+  sentence_window_radius: 0
+  expand_parents: true
+
+generation:
+  max_context_tokens: 3200
+  max_output_tokens: 700   # 本地 27B 生成很慢，调小比调大更划算
+  order: u-shape
+  dedupe: true
+  require_citations: true
+
+agentic:
+  enabled: true
+  max_rounds: 3
+  weak_coverage_threshold: 0.35
+  groundedness_threshold: 0.3
+  allow_web_fallback: false

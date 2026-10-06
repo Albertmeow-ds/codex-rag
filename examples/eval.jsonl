@@ -1,0 +1,10 @@
+{"question": "RRF 融合相比加权分数融合有什么优缺点", "gold_doc_ids": ["examples/corpus/01-hybrid-retrieval.md"]}
+{"question": "what is late interaction reranking and how is maxsim computed", "gold_doc_ids": ["examples/corpus/03-reranking.md"]}
+{"question": "中文语料做 BM25 时为什么推荐字符二元组索引", "gold_doc_ids": ["examples/corpus/01-hybrid-retrieval.md"]}
+{"question": "small-to-big hierarchical chunking 如何工作", "gold_doc_ids": ["examples/corpus/02-chunking.md"]}
+{"question": "HyDE hypothetical document embeddings 有什么风险", "gold_doc_ids": ["examples/corpus/04-query-transform.md"]}
+{"question": "corrective RAG 如何判断检索质量并触发补救", "gold_doc_ids": ["examples/corpus/05-agentic-rag.md"]}
+{"question": "nDCG 和 MRR 分别衡量什么", "gold_doc_ids": ["examples/corpus/06-evaluation.md"]}
+{"question": "lost in the middle 现象如何缓解", "gold_doc_ids": ["examples/corpus/05-agentic-rag.md"]}
+{"question": "how to keep indexing incremental and cache embeddings", "gold_doc_ids": ["examples/corpus/07-operations.md"]}
+{"question": "faithfulness 指标在无裁判模型时如何近似计算", "gold_doc_ids": ["examples/corpus/06-evaluation.md"]}
